@@ -49,10 +49,11 @@ class NetworkToolsApp:
             self.root.title("Network Tools")
 
             # Schriftgröße und Stil
-            self.font = ("Arial", 12)
-            self.font10 = ("Arial", 10)
-            self.label_font = ("Arial", 12, "bold")
-            self.large_font = ("Arial", 24, "bold")
+            self.font = ("Calibri", 12)
+            self.font10 = ("Calibri", 10)
+            self.font16 = ("Calibri", 16)
+            self.label_font = ("Calibri", 12, "bold")
+            self.large_font = ("Calibri", 24, "bold")
 
             # Stil für ttk-Widgets
             self.style = ttk.Style()
@@ -208,6 +209,7 @@ class NetworkToolsApp:
                 self.frame_profile, width=30, style="TEntry"
             )
             self.entry_profile_name.pack(pady=5)
+            self.entry_profile_name.bind("<KeyRelease>", self.toggle_save_button)
 
             # Button zum Speichern des Profils
             self.button_save_profile = ttk.Button(
@@ -215,6 +217,7 @@ class NetworkToolsApp:
                 text="Profil speichern",
                 command=self.save_profile,
                 style="TButton",
+                state=tk.DISABLED,  # Initial deaktiviert
             )
             self.button_save_profile.pack(pady=5)
 
@@ -258,7 +261,7 @@ class NetworkToolsApp:
                 self.tab_external_ip,
                 text="Öffentliche IP-Adresse:",
                 style="TLabel",
-                font=self.large_font,
+                font=self.font16,
             )
             self.label_external_ip.pack(pady=10)
 
@@ -270,6 +273,7 @@ class NetworkToolsApp:
                 anchor="center",
             )
             self.label_ip_display.pack(pady=10, fill="x")
+            self.label_ip_display.bind("<Double-1>", self.copy_ip_to_clipboard)
 
             # Button zum Abrufen der öffentlichen IP
             self.button_get_external_ip = ttk.Button(
@@ -288,7 +292,7 @@ class NetworkToolsApp:
             self.top_frame = tk.Frame(self.tab_ping)
             self.top_frame.pack(fill=tk.X, padx=5, pady=5)
 
-            self.command_entry = tk.Entry(self.top_frame, font=("Courier", 10))
+            self.command_entry = tk.Entry(self.top_frame, font=self.font16)
             self.command_entry.pack(side=tk.LEFT, fill=tk.X, expand=True)
             self.command_entry.insert(0, "ping 8.8.8.8")  # Voreingestellter Befehl
             self.command_entry.bind("<Return>", lambda event: self.execute_command())
@@ -324,20 +328,38 @@ class NetworkToolsApp:
 
             # ScrolledText-Widget für die Ausgabe
             self.output_text = scrolledtext.ScrolledText(
-                self.tab_ping, wrap=tk.WORD, font=("Courier", 8)
+                self.tab_ping, wrap=tk.WORD, font=self.font10
             )
             self.output_text.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
             self.output_text.config(state=tk.DISABLED)
 
             # Fenstergröße anpassen
             self.root.update_idletasks()
-            self.root.minsize(self.root.winfo_width(), self.root.winfo_height())
+            # self.root.minsize(self.root.winfo_width(), self.root.winfo_height())
+            self.root.geometry("420x600")
 
         except Exception as e:
             messagebox.showerror(
                 "Kritischer Fehler", f"Das Programm konnte nicht gestartet werden: {e}"
             )
             sys.exit(1)
+
+    def toggle_save_button(self, event):
+        """Aktiviert oder deaktiviert den 'Profil speichern'-Button basierend auf dem Profilnamen."""
+        if self.entry_profile_name.get().strip():
+            self.button_save_profile.config(state=tk.NORMAL)
+        else:
+            self.button_save_profile.config(state=tk.DISABLED)
+
+    def copy_ip_to_clipboard(self, event):
+        """Kopiert die öffentliche IP-Adresse in die Zwischenablage."""
+        ip_address = self.label_ip_display.cget("text")
+        self.root.clipboard_clear()
+        self.root.clipboard_append(ip_address)
+        messagebox.showinfo(
+            "Kopiert",
+            f"IP-Adresse {ip_address} wurde in die Zwischenablage kopiert.",
+        )
 
     def load_network_interfaces(self):
         """Lädt die verfügbaren Netzwerkkarten in das Dropdown-Menü."""
