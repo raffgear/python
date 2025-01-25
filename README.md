@@ -84,13 +84,13 @@ pip install wmi requests
 ## Screenshots
 
 ### Netzwerkkarten-Verwaltung
-![Netzwerkkarten-Verwaltung](screenshots/network_interfaces.png)
+
 
 ### Externe IP-Adresse
-![Externe IP-Adresse](screenshots/external_ip.png)
+
 
 ### Ping-Tool
-![Ping-Tool](screenshots/ping_tool.png)
+
 
 ---
 
