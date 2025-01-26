@@ -54,7 +54,7 @@ pip install wmi requests
    Führe die Datei `network_tools.py` mit Python aus:
 
    ```bash
-   python network_tools.py
+   network_tools_v1_1.py
    ```
 
    **Hinweis:** Das Programm muss mit Administratorrechten ausgeführt werden. Wenn es ohne Administratorrechte gestartet wird, wird es automatisch neu gestartet und fordert die erforderlichen Berechtigungen an.
@@ -73,10 +73,9 @@ pip install wmi requests
    - Klicke auf **Öffentliche IP anzeigen**, um die öffentliche IP-Adresse abzurufen und anzuzeigen.
 
 ### 3. **Ping-Tool**
-   - Gib eine IP-Adresse oder einen Hostnamen ein (z. B. `ping 8.8.8.8`).
+   - Gib eine IP-Adresse oder einen Hostnamen ein (z. B. `8.8.8.8`).
    - Klicke auf **Senden**, um den Ping-Befehl auszuführen.
    - Die Ausgabe wird in Echtzeit in der Textbox angezeigt.
-   - Verwende die Pfeiltasten (↑/↓), um durch den Befehlsverlauf zu navigieren.
    - Klicke auf **Abbrechen**, um den aktuellen Ping-Prozess zu stoppen.
 
 ---
